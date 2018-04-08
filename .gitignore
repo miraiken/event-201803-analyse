@@ -13,3 +13,12 @@ node_modules/
 
 # Build directory
 dist/
+### https://raw.github.com/github/gitignore/1a9f616ce525987555d43c72d59eb830d1856bd7/Global/VisualStudioCode.gitignore
+
+.vscode/*
+.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+
