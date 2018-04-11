@@ -4,10 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "tslint --fix src/**/*.ts",
-    "test": "jest",
-    "build": "rimraf dist && webpack && cpx src/appsscript.json dist",
-    "deploy": "npm run build && clasp push"
+    "lint": "tslint src/**/*.ts",
+    "lint:fix": "tslint --fix src/**/*.ts",
+    "test:jest": "jest",
+    "test": "npm-run-all --parallel test:jest lint",
+    "clean": "rimraf dist",
+    "build:pre": "npm-run-all --parallel lint:fix clean",
+    "build:webpack": "webpack",
+    "build:resource": "cpx src/appsscript.json dist",
+    "build:main": "npm-run-all --parallel build:webpack build:resource",
+    "build": "npm-run-all -s build:pre build:main",
+    "deploy:push": "clasp push",
+    "deploy": "npm-run-all -s  build deploy:push"
   },
   "repository": {
     "type": "git",
@@ -32,6 +40,7 @@
     "cpx": "^1.5.0",
     "gas-webpack-plugin": "^0.2.1",
     "jest": "^22.4.3",
+    "npm-run-all": "^4.1.2",
     "prettier": "^1.11.1",
     "rimraf": "^2.6.2",
     "ts-jest": "^22.4.2",
