@@ -3,7 +3,9 @@ const GasPlugin = require("gas-webpack-plugin");
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.ts',
+  entry: {
+    idnex: ['babel-polyfill', './src/index.ts']
+  },
   devtool: false,
   output: {
     filename: 'bundle.js',
@@ -13,13 +15,14 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader'
+        use: ["babel-loader", "ts-loader"],
+        // exclude: /node_modules/
       }
     ]
   },
   resolve: {
     extensions: [
-      '.ts'
+      '.js', '.ts'
     ]
   },
   plugins: [
