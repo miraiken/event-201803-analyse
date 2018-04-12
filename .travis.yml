@@ -1,11 +1,13 @@
-
 language: node_js
 node_js:
-  - "9"
-  - "8"
+- '9'
+- '8'
 cache:
   directories:
-    - "node_modules"
+  - node_modules
 script:
-  - npm test
-  - npm run build
+- npm test
+- npm run build
+notifications:
+  slack:
+    secure: wSZEL+sD+LLDsYAWMBT0xIvf3XTA4kLroka6RsJD49HlLW2kb55/F3RFCqoSiIZzNo6hR4u+pSGn2NzJobtbXU1snHS3UtwYS/8mGhM8M4ZBuRKWK3H5n3NaRyJ9etUja887oD5sH3P0uPxyX2ayU/H275f78IalhWYwC511mPZWoXrZRIxdekXsdSBqnMtFarMZyOkJttibnGbrut2SmBFkTCjFwua79KpQXukWX4yKlzkNb9ZqPDPJigrpvqPeV682lBOVyHOA/MP7tD0lq1TUo9ga8wbfOPDQiWUR7XQH+hVo7fC0Lnaw6UEzlKTlRkgyNQeCIAcWStjCsbVF2l17sujxA80EoLp4nXUSgFQg2uiPxsLiQo3tlhvZWq+5ZKfmd81mhe/xYgKhMzAIyXIF+NkEAyZIL9xQZhDNPLMV/RUp774QPS05RKF3icvMmV2Se0dT2WtEgJPqaauEkAZMMjjpp9wgrxONIaZXYLAoHf+dJGaiRfJeaNm2x0liGxo91ci0vmMn6NmfKTJvY2v7eh6XjtGHsuIOPpZNfxXw1RXPpIFs/UUj8Bq8u+5dwzC0x7Xo+3HyQYs6QbfYhqm4RRCuWFUk0+OGIzwRL6sE85jqE2mWCGqrM7h/03sglr9YnMmUKwgBodTdpvpp0hI0Wl23KTVVe1oz4FBHPJg=
