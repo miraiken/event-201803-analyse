@@ -1,8 +1,6 @@
 {
-    "presets": ["@babel/preset-es2015"],
+    "presets": ["gas"],
     "plugins": [
-        "transform-es3-member-expression-literals",
-        "transform-es3-property-literals",
         "minify-dead-code-elimination",
         "transform-minify-booleans"
     ],
