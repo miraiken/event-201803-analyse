@@ -1,8 +1,6 @@
 # event-201803-analyse
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/miraiken/event-201803-analyse.svg)](https://greenkeeper.io/)
-
-[![Build Status](https://travis-ci.org/miraiken/event-201803-analyse.svg?branch=master)](https://travis-ci.org/miraiken/event-201803-analyse)
+[![Build Status](https://travis-ci.org/miraiken/event-201803-analyse.svg?branch=master)](https://travis-ci.org/miraiken/event-201803-analyse) [![Greenkeeper badge](https://badges.greenkeeper.io/miraiken/event-201803-analyse.svg)](https://greenkeeper.io/)
 
 [201803イベント](https://miraiken.github.io/web/event/2018/march/)のアンケートの解析用Script
 
