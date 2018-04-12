@@ -1,9 +1,11 @@
-const symbols = ['○', '◯', '◎', '△', '×'];
+const symbols = ['○', '◯', '〇', '◎', '△', '×'];
 function isSymbol(s: string) {
   return symbols.some(symbol => symbol === s);
 }
 const normalizeKeyMap = {
   '◯': '○',
+  // tslint:disable-next-line:prettier
+  '〇': '○',
   // tslint:disable-next-line:prettier
   '楽しかった': '○',
   // tslint:disable-next-line:prettier
@@ -32,40 +34,41 @@ export class Analyse1803Q6 {
   }
   private push(howWasIt?: string, comment?: string) {
     ++this.joined;
-    if (howWasIt !== undefined) this.incHowWasIt(howWasIt);
+    if (howWasIt !== undefined) this.incHowWasIt(normalizeKey(howWasIt));
     if (comment !== undefined) this.comments.push(comment);
   }
   parseOne(arg: string | null) {
     if (null == arg || 0 === arg.length) return;
-    const a = arg.replace(/^\s+/g, '');
+    const a = arg.replace(/^[\s 　]+/g, '');
     if (isSymbol(a[0])) {
+      const s = a.replace(/[\s 　]+/g, '');
       //楽しかったかどうかが○などで表されている場合
       //マークが一つは参加していると仮定し、楽しかったかどうかを示すものとして扱う
-      const howWasItPos = isSymbol(a[1]) ? 1 : 0;
-      if (howWasItPos + 1 < a.length) {
-        this.push(a[howWasItPos], a.slice(2));
+      const howWasItPos = isSymbol(s[1]) ? 1 : 0;
+      if (howWasItPos + 1 < s.length) {
+        this.push(s[howWasItPos], s.slice(howWasItPos + 1));
       } else {
-        this.push(a[howWasItPos]);
+        this.push(s[howWasItPos]);
       }
     } else {
       //楽しかったかどうかがマークで表されていないのでスーパー頑張る場合
       //正規表現でsplitを試みる
-      const splitted = /[ 　、]*[^ 　、]+[ 　、]+(.+)/.exec(arg);
-      if (null == splitted) {
+      const splitted = /[ 　、，,]*([^ 　、，,]+)[ 　、，,]+(.+)/.exec(a);
+      if (null == splitted || !/参加/.test(splitted[1])) {
         //つらすぎる。入力者を呪いつつ、楽しかったかどうかだけ判定して後はコメント送り
-        if (isContainEnjoy(arg)) {
-          this.push('○');
+        if (isContainEnjoy(a)) {
+          this.push('○', a);
         } else {
-          this.push();
+          this.push(undefined, a);
         }
       } else {
         //splitできた場合
         //コメントの有無を確認
-        const hasComment = /([^ 　、]+)[ 　、]+(.+)/.exec(splitted[0]);
+        const hasComment = /([^ 　、，,]+)[ 　、，,]+(.+)/.exec(splitted[2]);
         if (null == hasComment) {
-          this.push(isContainEnjoy(splitted[0]) ? '○' : splitted[0].split(/[ 　、]/)[0]);
+          this.push(isContainEnjoy(splitted[2]) ? '○' : splitted[2].split(/[ 　、，,]/)[0]);
         } else {
-          this.push(isContainEnjoy(hasComment[0]) ? '○' : hasComment[0], hasComment[1]);
+          this.push(isContainEnjoy(hasComment[1]) ? '○' : hasComment[1], hasComment[2]);
         }
       }
     }
@@ -82,10 +85,15 @@ export class Analyse1803Q6 {
       params.push(this.howWasIt[key].toString());
     }
     paramDescriptions.unshift('参加');
-    re.push(paramDescriptions);
     params.unshift(this.joined.toString());
-    re.push(params);
-    re.push(this.comments);
+    const max = Math.max(paramDescriptions.length, params.length, this.comments.length);
+    for (let i = 0; i < max; i++) {
+      re.push([
+        i < paramDescriptions.length ? paramDescriptions[i] : '',
+        i < params.length ? params[i] : '',
+        i < this.comments.length ? this.comments[i] : ''
+      ]);
+    }
     return re;
   }
 }
