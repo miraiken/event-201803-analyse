@@ -4,7 +4,7 @@ const GasPlugin = require("gas-webpack-plugin");
 module.exports = {
   mode: 'development',
   entry: {
-    idnex: ['babel-polyfill', './src/index.ts']
+    idnex: ['./src/index.ts']
   },
   devtool: false,
   output: {

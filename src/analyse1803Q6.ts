@@ -1,18 +1,16 @@
-// import * as Map from 'core-js/es6/map';
-// import * as Object from 'core-js/es6/object';
-
 const symbols = ['○', '◯', '◎', '△', '×'];
 function isSymbol(s: string) {
   return symbols.some(symbol => symbol === s);
 }
-// tslint:disable-next-line:prettier
-const normalizeKeyMap = new Map<string, string>([
-  ['◯', '○'],
-  ['楽しかった', '○'],
-  ['面白かった', '○']
-]);
+const normalizeKeyMap = {
+  '◯': '○',
+  // tslint:disable-next-line:prettier
+  '楽しかった': '○',
+  // tslint:disable-next-line:prettier
+  '面白かった': '○'
+};
 function normalizeKey(k: string): string {
-  return normalizeKeyMap.get(k) || k;
+  return k in normalizeKeyMap ? normalizeKeyMap[k] : k;
 }
 const enjoyKindKeyWords = new RegExp(
   '(' + ['楽しかった', '面白', 'おもしろ', 'ENJOY'].join('|') + ')'
@@ -22,15 +20,15 @@ function isContainEnjoy(s: string): boolean {
 }
 export class Analyse1803Q6 {
   private joined: number;
-  private howWasIt: Map<string, number>;
+  private howWasIt: object;
   private comments: string[];
   constructor() {
     this.joined = 0;
-    this.howWasIt = new Map<string, number>();
+    this.howWasIt = {};
     this.comments = [];
   }
   private incHowWasIt(key: string) {
-    this.howWasIt.set(key, (this.howWasIt.get(key) || 0) + 1);
+    this.howWasIt[key] = (key in this.howWasIt ? this.howWasIt[key] : 0) + 1;
   }
   private push(howWasIt?: string, comment?: string) {
     ++this.joined;
@@ -77,13 +75,17 @@ export class Analyse1803Q6 {
    */
   convert(): string[][] {
     let re: string[][] = [];
-    let paramDescriptions = Array.from(this.howWasIt.keys());
+    let paramDescriptions: string[] = [];
+    let params: string[] = [];
+    for (const key in this.howWasIt) {
+      paramDescriptions.push(key);
+      params.push(this.howWasIt[key].toString());
+    }
     paramDescriptions.unshift('参加');
-    re.push(Object.assign([], paramDescriptions));
-    let params = Array.from(this.howWasIt.values());
-    params.unshift(this.joined);
-    re.push(Object.assign([], params.map(n => n.toString())));
-    re.push(Object.assign([], this.comments));
+    re.push(paramDescriptions);
+    params.unshift(this.joined.toString());
+    re.push(params);
+    re.push(this.comments);
     return re;
   }
 }

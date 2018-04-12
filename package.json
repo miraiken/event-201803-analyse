@@ -72,8 +72,6 @@
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
     "babel-plugin-transform-es3-property-literals": "^6.22.0",
     "babel-plugin-transform-minify-booleans": "^6.9.1",
-    "babel-polyfill": "^6.26.0",
-    "core-js": "^2.5.5",
     "object-type-traits": "^1.0.2"
   }
 }
